@@ -7,6 +7,7 @@ This project allows to implement some Ajax calls for testing purposes
 ## ajax.php
 
 - Add your callback function in the **actions array** :
+
 ````php
 $actions = [
     'say-hello' => 'sayHello',
@@ -16,6 +17,7 @@ $actions = [
 ];
 ````
 - Add your function with the **following prototype** :
+
 ````php
 function yourFunction(&$responseArray) {
 }
@@ -27,20 +29,21 @@ $pageUrl = filter_input(INPUT_POST, 'page-url', FILTER_SANITIZE_STRING, FILTER_F
 ````
 
 On the response array, **you need to set** :
-- the status `$responseArray['status']` (`error` by default, set it on `success` in case of success)
-- the message `$responseArray['status']` (`An error has occured` by default, customize it)
+- the status `$responseArray['status']` (*'error'* by default, set it on *'success'* in case of success)
+- the message `$responseArray['status']` (*'An error has occured'* by default, customize it)
 
 And **you can return data** on `$responseArray['data']`
 
 A fourth field is provided and automatically with the possible **php errors/warning/notice** : `$responseArray['debug']`
 
-The server will send **$responseArray** to the client using the **JSON format** with the appropriate header.
+The server will send `$responseArray` to the client using the **JSON format** with the appropriate header.
 
 # Call these functions on client side using Ajax (with jQuery) 
 
 ## index.php
 
 - Add your form, by exemple :
+
 ````html
 <h3>Get page content</h3>
 <form id="getPageContent" action="ajax.php" method="post">
@@ -49,9 +52,9 @@ The server will send **$responseArray** to the client using the **JSON format** 
     <input type="submit" value="Test">
 </form>
 ````
-The '*hidden action*' input and the '*submit*' input are needed.
+The *'hidden action'* input and the *'submit'* input are needed.
 
-You can **add some other fields** like the '*page-url text*' input **to transmit data to your callback function**.
+You can **add some other fields** like the *'page-url text'* input **to transmit data to your callback function**.
 
 ## scripts.js
 
@@ -89,6 +92,7 @@ You should not need to modify it.
 > Think to **customize** `DocumentRoot` and `Directory` !
 
 - Enable the new Virtual host :
+
 ````bash
 cd /etc/apache2/sites-available
 sudo a2ensite ajax-tests.loc.conf
@@ -96,6 +100,7 @@ sudo a2ensite ajax-tests.loc.conf
 
 ## hosts file
 - add the following line to your **hosts** file :
+
 ````bash
 127.0.1.1      ajax-tests.loc
 ````
