@@ -23,7 +23,7 @@ if (isset($_POST['action'])) {
         call_user_func_array($actions[$action], array(&$responseArray));
         $responseArray['debug'] = ob_get_clean();
         header('Content-Type: application/json');
-        echo json_encode($responseArray);
+        die(json_encode($responseArray));
     } else {
         http_response_code(400);
     }
@@ -42,8 +42,10 @@ function getPageContent(&$responseArray) {
     if (isset($_POST['page-url'])) {
         $pageUrl = filter_input(INPUT_POST, 'page-url', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
         if (!empty($pageUrl)) {
-            $pageContent = file_get_contents($pageUrl);
-            if ($pageContent !== false) {
+            $pageContent = @file_get_contents($pageUrl);
+            if ($pageContent === false) {
+                $responseArray['message'] = 'Unable to get the content of <a href="' . $pageUrl . '" target="_blank">' . $pageUrl . '</a>. Please check the URL.';
+            } else {
                 $responseArray['status'] = 'success';
                 $responseArray['message'] = 'The content of <a href="' . $pageUrl . '" target="_blank">' . $pageUrl . '</a> have successfully been retrieved.';
                 $responseArray['data'] = $pageContent;
